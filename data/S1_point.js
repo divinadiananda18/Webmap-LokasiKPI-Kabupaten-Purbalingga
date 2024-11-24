@@ -1,0 +1,14 @@
+var S1_point = {
+"type": "FeatureCollection",
+"name": "S1_point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID_1": 1, "OBJECTID": 372, "Kecamatan": "Bukateja", "Luas": 7.5626090055499997, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 4058.36958336, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.03673349506, "Shape_Area": 6.19467e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.404996577420164, -7.422303725282874 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 2, "OBJECTID": 373, "Kecamatan": "Bukateja", "Luas": 17.2300696569, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 2542.6322773799998, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.02301437954, "Shape_Area": 1.411439e-05 }, "geometry": { "type": "Point", "coordinates": [ 109.471711804850372, -7.423706448879076 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 3, "OBJECTID": 672, "Kecamatan": "Kalimanah", "Luas": 5.1440694950200001, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 1958.2728491600001, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.0177229088, "Shape_Area": 4.2132e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.351060833963416, -7.403862191595951 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 4, "OBJECTID": 673, "Kecamatan": "Kalimanah", "Luas": 6.8738572571000001, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 3497.3232764899999, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.0316588394, "Shape_Area": 5.63017e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.369065290339165, -7.411449528202317 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 5, "OBJECTID": 674, "Kecamatan": "Kalimanah", "Luas": 6.9468530921999996, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 2865.00710441, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.02593125286, "Shape_Area": 5.68981e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.353600697825385, -7.407072179750291 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 6, "OBJECTID": 959, "Kecamatan": "Kemangkon", "Luas": 8.4579501086099995, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 3996.64985802, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.03617589812, "Shape_Area": 6.92809e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.383631604945961, -7.433703272692612 ] } },
+{ "type": "Feature", "properties": { "OBJECTID_1": 7, "OBJECTID": 1229, "Kecamatan": "Padamara", "Luas": 5.4942814229400003, "NAMOBJ": "Kawasan Peruntukan Industri", "Shape_Leng": 3941.5630270699999, "Kesesuaian": "Sentra IKM", "Shape_Le_1": 0.03567428112, "Shape_Area": 4.49954e-06 }, "geometry": { "type": "Point", "coordinates": [ 109.30916701807844, -7.372221299801968 ] } }
+]
+};

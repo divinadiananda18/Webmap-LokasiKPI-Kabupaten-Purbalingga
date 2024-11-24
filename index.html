@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Web Map</title>
+
+    <link rel="stylesheet" href="css/qgis2web.css" />
+    <link rel="stylesheet" href="css/fontawesome-all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;0,800;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      rel="stylesheet"
+      href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+    <link rel="stylesheet" href="css/header.css" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="plugin/leaflet.defaultextent.css"
+    />
+    <script src="plugin/leaflet.defaultextent.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+    />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
+      charset="utf-8"
+    ></script>
+
+    <script src="data/bataskec.js"></script>
+    <script src="data/LahanS1.js"></script>
+    <script src="data/LahanS2.js"></script>
+    <script src="data/LahanS3.js"></script>
+    <script src="data/LahanN1.js"></script>
+    <script src="data/S1_point.js"></script>
+    <script src="data/S2_point.js"></script>
+    <script src="data/S3_point.js"></script>
+    <script src="data/N1_point.js"></script>
+    <script src="data/RTRW_KPI.js"></script>
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #map {
+        width: 100%;
+        height: 85%;
+        padding: 0;
+        margin: 0;
+      }
+
+      header {
+        color: rgb(255, 255, 255);
+      }
+
+      .styleLabelPoint {
+        background: rgba(255, 255, 255, 0);
+        border: 0;
+        border-radius: 0px;
+        box-shadow: 0 0px 0px;
+        font-size: 5.5pt;
+        line-height: 1;
+        color: black;
+        text-align: center;
+        font-weight: 500;
+        text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff,
+          -1px -1px 0 #fff;
+      }
+
+      .styleLabelKecamatan {
+        background: rgba(255, 255, 255, 0);
+        border: 0;
+        border-radius: 0px;
+        box-shadow: 0 0px 0px;
+        font-size: 7pt;
+        line-height: 1;
+        color: #78290f;
+        text-align: center;
+        font-weight: 700;
+        text-shadow: -1px 1px 0 #f8edeb, 1px 1px 0 #f8edeb, 1px -1px 0 #f8edeb,
+          -1px -1px 0 #f8edeb;
+      }
+
+      .legend p {
+        font-size: 10pt;
+        line-height: 2;
+        margin: 0px;
+      }
+
+      .legend {
+        padding: 6px 8px;
+        margin: 0px;
+        border-radius: 10px;
+        border: 2px solid #f8edeb;
+        background-clip: padding-box;
+        column-count: 2;
+      }
+
+      #legend-title {
+        font-weight: bold;
+        text-align: center;
+        font-size: 12pt;
+        margin-bottom: 12px;
+      }
+
+      hr {
+        border: #66757f solid white;
+        padding: 0px;
+        margin-top: 0px;
+        margin-bottom: 2px;
+      }
+
+      .judulki {
+        font-size: 8pt;
+        font-weight: bold;
+        text-align: center;
+        background: #b8e5e7;
+        color: #003049;
+        border-radius: 5rem;
+        padding: 0.5rem 0.5rem;
+      }
+
+      .judulikm {
+        font-size: 8pt;
+        font-weight: bold;
+        text-align: center;
+        background: #e9d8a6;
+        color: #ae2012;
+        border-radius: 5rem;
+        padding: 0.5rem 0.5rem;
+      }
+
+      .judulproduk {
+        font-size: 8pt;
+        font-weight: bold;
+        text-align: center;
+        background: #3d0066;
+        color: #f2ebfb;
+        border-radius: 5rem;
+        padding: 0.5rem 0.5rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="site-identity">
+        <a><img src="icon/icon_webmap.png" alt="Icon Web Map" /></a>
+        <h1>
+          <a class="judul">
+            <b>Web Map</b>
+            <c>Lokasi Potensial Pengembangan Kawasan Peruntukan Industri</c>
+            <br />
+            <c>Kabupaten Purbalingga</c>
+          </a>
+        </h1>
+      </div>
+    </header>
+
+    <!-- Web Map -->
+    <div id="map"></div>
+
+    <script>
+      var map = L.map("map", {
+        center: [-7.380569986391603, 109.36186683047279],
+        zoom: 11,
+      });
+
+      //Basemap//
+      var osm_mapnik = L.tileLayer(
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          maxZoom: 19,
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      );
+
+      var esri = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        }
+      ).addTo(map);
+
+      var carto = L.tileLayer(
+        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>&copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+          subdomains: "abcd",
+          maxZoom: "19",
+        }
+      );
+
+      var baseMaps = {
+        Dark: carto,
+        OSM: osm_mapnik,
+        Satellite: esri,
+      };
+
+      //Batas Kecamatan//
+      /*1. Setting Kecamatan area style */
+      function getColor(a) {
+        return a == "Bobotsari"
+          ? "#D8BFD8"
+          : a == "Bojongsari"
+          ? "#ADD8E6"
+          : a == "Bukateja"
+          ? "#CD5C5C"
+          : a == "Kalimanah"
+          ? "#BC8F8F"
+          : a == "Kaligondang"
+          ? "#F5F5DC"
+          : a == "Karanganyar"
+          ? "#8FBC8F"
+          : a == "Karangjambu"
+          ? "#FFD700"
+          : a == "Karangmoncol"
+          ? "#2E8B57"
+          : a == "Karangreja"
+          ? "#DAA520"
+          : a == "Kejobong"
+          ? "#FFA07A"
+          : a == "Kemangkon"
+          ? "#FFDAB9"
+          : a == "Kertanegara"
+          ? "#BDB76B"
+          : a == "Kutasari"
+          ? "#778899"
+          : a == "Mrebet"
+          ? "#7FFFD4"
+          : a == "Padamara"
+          ? "#00FFFF"
+          : a == "Pengadegan"
+          ? "#FF6343"
+          : a == "Purbalingga"
+          ? "#DA70D6"
+          : a == "Rembang"
+          ? "#556B2F"
+          : "#111111";
+      }
+
+      function style(feature) {
+        return {
+          fillColor: getColor(feature.properties.Kecamatan),
+          fillOpacity: 0.8,
+          color: "white",
+          weight: 1.25,
+          dashArray: 5,
+        };
+      }
+
+      /2. Define style function to the Kecamatan area/;
+      var bataskec_pur = L.geoJSON(bataskec, {
+        style,
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup("Kecamatan " + feature.properties.Kecamatan);
+        },
+      }).addTo(map);
+
+      //AREA KI&IKM//
+      /1. Define mouseover interaction/;
+      function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+          weight: 5,
+          color: "grey",
+          dashArray: "",
+          fillOpacity: 0.7,
+        });
+
+        layer.bringToFront();
+      }
+
+      function resetHighlight(e) {
+        kpi_area_pur.resetStyle(e.target);
+      }
+
+      function resetHighlight1(e) {
+        sentraikm_area_pur.resetStyle(e.target);
+      }
+
+      /2. Add S1 area GeoJSON data/;
+      const S1_area_pur = L.geoJSON(LahanS1, {
+        style: function (feature) {
+          switch (feature.properties.Kesesuaian) {
+            case "Sentra IKM":
+              return {
+                fillColor: "#008000",
+                fillOpacity: 0.8,
+                color: "#00FF00",
+                weight: 1.5,
+              };
+          }
+        },
+        onEachFeature: function (feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+          });
+          if (feature.properties) {
+            layer.bindPopup(
+              '<h1 class="judulki">Lokasi Potensial Pengembangan KPI Sangat Sesuai (S1)</h1>' +
+                '<p style="text-align:center;"> Luas: ' +
+                "<strong>" +
+                Number(feature.properties.Luas).toLocaleString("de-DE", {
+                  minimumFractionDigits: 3,
+                  maximumFractionDigits: 3,
+                }) +
+                "</strong>" +
+                " ha. <br>Lokasi: " +
+                "<strong>" +
+                "Kecamatan " +
+                feature.properties.Kecamatan +
+                "</strong>" +
+                "</p>"
+            );
+          }
+        },
+      });
+
+      /3. Add S2 area GeoJSON data/;
+      const S2_area_pur = L.geoJSON(LahanS2, {
+        style: function (feature) {
+          switch (feature.properties.gridcode) {
+            case 2:
+              return {
+                fillColor: "#9ACD32",
+                fillOpacity: 0.8,
+                color: "#ADFF2F",
+                weight: 1.5,
+              };
+          }
+        },
+        onEachFeature: function (feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+          });
+          if (feature.properties) {
+            layer.bindPopup(
+              '<h1 class="judulki">Lokasi Potensial Pengembangan KPI Cukup Sesuai (S2)</h1>' +
+                '<p style="text-align:center;"> Luas: ' +
+                "<strong>" +
+                Number(feature.properties.LUAS_1).toLocaleString("de-DE", {
+                  minimumFractionDigits: 3,
+                  maximumFractionDigits: 3,
+                }) +
+                "</strong>" +
+                " ha. <br>Lokasi: " +
+                "<strong>" +
+                "Kecamatan " +
+                feature.properties.Kecamatan +
+                "</strong>" +
+                "</p>"
+            );
+          }
+        },
+      });
+
+      /4. Add S3 area GeoJSON data/;
+      const S3_area_pur = L.geoJSON(LahanS3, {
+        style: function (feature) {
+          switch (feature.properties.gridcode) {
+            case 3:
+              return {
+                fillColor: "#FFA500",
+                fillOpacity: 0.8,
+                color: "#FFFF00",
+                weight: 1.5,
+              };
+          }
+        },
+        onEachFeature: function (feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+          });
+          if (feature.properties) {
+            layer.bindPopup(
+              '<h1 class="judulki">Lokasi Potensial Pengembangan KPI Sesuai Marginal (S3)</h1>' +
+                '<p style="text-align:center;"> Luas: ' +
+                "<strong>" +
+                Number(feature.properties.LUAS_1).toLocaleString("de-DE", {
+                  minimumFractionDigits: 3,
+                  maximumFractionDigits: 3,
+                }) +
+                "</strong>" +
+                " ha. <br>Lokasi: " +
+                "<strong>" +
+                "Kecamatan " +
+                feature.properties.Kecamatan +
+                "</strong>" +
+                "</p>"
+            );
+          }
+        },
+      });
+
+      /4. Add N1 area GeoJSON data/;
+      const N1_area_pur = L.geoJSON(LahanN1, {
+        style: function (feature) {
+          switch (feature.properties.gridcode) {
+            case 4:
+              return {
+                fillColor: "#B22222",
+                fillOpacity: 0.8,
+                color: "#FF0000",
+                weight: 1.5,
+              };
+          }
+        },
+        onEachFeature: function (feature, layer) {
+          layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight1,
+          });
+          if (feature.properties) {
+            layer.bindPopup(
+              '<h1 class="judulikm">Lokasi Potensial Pengembangan KPI Tidak Sesuai Saat Ini (N1)</h1>' +
+                '<p style="text-align:center;"> Luas: ' +
+                "<strong>" +
+                Number(feature.properties.LUAS_1).toLocaleString("de-DE", {
+                  minimumFractionDigits: 3,
+                  maximumFractionDigits: 3,
+                }) +
+                "</strong>" +
+                " ha. <br>Lokasi: " +
+                "<strong>" +
+                "Kecamatan " +
+                feature.properties.Kecamatan +
+                "</strong>" +
+                "</p>"
+            );
+          }
+        },
+      });
+
+      var info = L.control();
+
+      //POINT KI&IKM//
+      /*1. Create a function to replace the feature marker icon*/
+      function createCustomIcon1(feature, LatLng) {
+        const myIcon = L.icon({
+          iconUrl: "icon/kawasanS1.png",
+          iconSize: [18.83, 21.65],
+        });
+        return L.marker(LatLng, { icon: myIcon });
+      }
+
+      function createCustomIcon2(feature, LatLng) {
+        const myIcon = L.icon({
+          iconUrl: "icon/kawasanS2.png",
+          iconSize: [18.83, 21.65],
+        });
+        return L.marker(LatLng, { icon: myIcon });
+      }
+
+      function createCustomIcon3(feature, LatLng) {
+        const myIcon = L.icon({
+          iconUrl: "icon/kawasanS3.png",
+          iconSize: [18.83, 21.65],
+        });
+        return L.marker(LatLng, { icon: myIcon });
+      }
+
+      function createCustomIcon4(feature, LatLng) {
+        const myIcon = L.icon({
+          iconUrl: "icon/kawasanN1.png",
+          iconSize: [18.83, 21.65],
+        });
+        return L.marker(LatLng, { icon: myIcon });
+      }
+
+      /*2. Create an icon option object that specifies which function will called on each point */
+      const myIconOptions1 = {
+        pointToLayer: createCustomIcon1,
+      };
+
+      const myIconOptions2 = {
+        pointToLayer: createCustomIcon2,
+      };
+
+      const myIconOptions3 = {
+        pointToLayer: createCustomIcon3,
+      };
+
+      const myIconOptions4 = {
+        pointToLayer: createCustomIcon4,
+      };
+
+      /*3. Add GeoJSON data with custom icon function */
+      var S1_point_pur = L.geoJson(S1_point, myIconOptions1);
+      var S2_point_pur = L.geoJson(S2_point, myIconOptions2);
+      var S3_point_pur = L.geoJson(S3_point, myIconOptions3);
+      var N1_point_pur = L.geoJson(N1_point, myIconOptions4);
+
+      /*4. Create the Kawasan Industri & Sentra IKM Point with the function and labels */
+      var S1_point_pur_label = L.geoJson(S1_point, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: "leaflet-mouse-marker",
+            }),
+            interactive: false,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          var content =
+            "Sangat Sesuai (S1) <br> " +
+            "Kec. " +
+            layer.feature.properties.Kecamatan.toString() +
+            "<br> <br> <br> <br> <br> <br> <br>";
+          layer.bindTooltip(content, {
+            direction: "center",
+            permanent: false,
+            className: "styleLabelPoint",
+          });
+        },
+      });
+      map.on("moveend", function () {
+        if (map.getZoom() <= 10 && map.hasLayer(S1_point_pur_label)) {
+          map.removeLayer(S1_point_pur_label);
+        }
+        if (map.getZoom() > 10 && map.hasLayer(S1_point_pur_label) == false) {
+          map.addLayer(S1_point_pur_label);
+        }
+      });
+
+      var S2_point_pur_label = L.geoJson(S2_point, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: "leaflet-mouse-marker",
+            }),
+            interactive: false,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          var content =
+            "Cukup Sesuai (S2) <br> " +
+            "Kec. " +
+            layer.feature.properties.Kecamatan.toString() +
+            "<br> <br> <br> <br> <br> <br> <br>";
+          layer.bindTooltip(content, {
+            direction: "center",
+            permanent: false,
+            className: "styleLabelPoint",
+          });
+        },
+      });
+      map.on("moveend", function () {
+        if (map.getZoom() <= 10 && map.hasLayer(S2_point_pur_label)) {
+          map.removeLayer(S2_point_pur_label);
+        }
+        if (map.getZoom() > 10 && map.hasLayer(S2_point_pur_label) == false) {
+          map.addLayer(S2_point_pur_label);
+        }
+      });
+
+      var S3_point_pur_label = L.geoJson(S3_point, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: "leaflet-mouse-marker",
+            }),
+            interactive: false,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          var content =
+            "Sesuai Marginal (S3) <br> " +
+            "Kec. " +
+            layer.feature.properties.Kecamatan.toString() +
+            "<br> <br> <br> <br> <br> <br> <br>";
+          layer.bindTooltip(content, {
+            direction: "center",
+            permanent: false,
+            className: "styleLabelPoint",
+          });
+        },
+      });
+      map.on("moveend", function () {
+        if (map.getZoom() <= 10 && map.hasLayer(S3_point_pur_label)) {
+          map.removeLayer(S3_point_pur_label);
+        }
+        if (map.getZoom() > 10 && map.hasLayer(S3_point_pur_label) == false) {
+          map.addLayer(S3_point_pur_label);
+        }
+      });
+
+      var N1_point_pur_label = L.geoJson(N1_point, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            icon: L.divIcon({
+              className: "leaflet-mouse-marker",
+            }),
+            interactive: false,
+          });
+        },
+        onEachFeature: function (feature, layer) {
+          var content =
+            "Tidak Sesuai Pada Saat Ini (N1) <br> " +
+            "Kec. " +
+            layer.feature.properties.Kecamatan.toString() +
+            "<br> <br> <br> <br> <br> <br> <br>";
+          layer.bindTooltip(content, {
+            direction: "center",
+            permanent: false,
+            className: "styleLabelPoint",
+          });
+        },
+      });
+
+      map.on("moveend", function () {
+        if (map.getZoom() <= 12 && map.hasLayer(N1_point_pur_label)) {
+          map.removeLayer(N1_point_pur_label);
+        }
+        if (map.getZoom() > 12 && map.hasLayer(N1_point_pur_label) == false) {
+          map.addLayer(N1_point_pur_label);
+        }
+      });
+
+      //RTRW Peruntukan Industri//
+      var rtrwindustri = L.geoJson(RTRW_KPI, {
+        style: function (feature) {
+          switch (feature.properties.NAMOBJ) {
+            case "Kawasan Peruntukan Industri":
+              return { color: "#00FF7F" };
+          }
+        },
+      });
+
+      // Add event listeners to control when layers are added/removed
+      map.on("overlayadd", function (eventLayer) {
+        if (eventLayer.name === "Sangat Sesuai (S1)") {
+          map.addLayer(S1_area_pur); // Add S1 polygon
+          map.removeLayer(S1_point_pur); // Ensure points are removed
+        } else if (eventLayer.name === "Cukup Sesuai (S2)") {
+          map.addLayer(S2_area_pur);
+          map.removeLayer(S2_point_pur);
+        } else if (eventLayer.name === "Sesuai Marginal (S3)") {
+          map.addLayer(S3_area_pur);
+          map.removeLayer(S3_point_pur);
+        } else if (eventLayer.name === "Tidak Sesuai Pada Saat Ini (N1)") {
+          map.addLayer(N1_area_pur);
+          map.removeLayer(N1_point_pur);
+        }
+      });
+
+      map.on("overlayremove", function (eventLayer) {
+        if (eventLayer.name === "Sangat Sesuai (S1)") {
+          map.removeLayer(S1_area_pur);
+        } else if (eventLayer.name === "Cukup Sesuai (S2)") {
+          map.removeLayer(S2_area_pur);
+        } else if (eventLayer.name === "Sesuai Marginal (S3)") {
+          map.removeLayer(S3_area_pur);
+        } else if (eventLayer.name === "Tidak Sesuai Pada Saat Ini (N1)") {
+          map.removeLayer(N1_area_pur);
+        }
+      });
+
+      // Do not add the layer groups by default
+      var S1 = L.layerGroup([S1_point_pur, S1_point_pur_label]); // Only points added
+      var S2 = L.layerGroup([S2_point_pur, S2_point_pur_label]);
+      var S3 = L.layerGroup([S3_point_pur, S3_point_pur_label]);
+      var N1 = L.layerGroup([N1_point_pur, N1_point_pur_label]);
+
+      var overlayMaps = {
+        "Sangat Sesuai (S1)": S1,
+        "Cukup Sesuai (S2)": S2,
+        "Sesuai Marginal (S3)": S3,
+        "Tidak Sesuai Pada Saat Ini (N1)": N1,
+        "RTRW Peruntukan Industri": rtrwindustri,
+      };
+
+      var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+      var extent = L.control.defaultExtent().addTo(map);
+
+      var geocoder = L.Control.geocoder({
+        position: "topleft",
+      }).addTo(map);
+
+      /Legend specific/;
+      var legend = L.control({ position: "bottomleft" });
+
+      legend.onAdd = function (map) {
+        var div = L.DomUtil.create("div", "legend");
+        div.innerHTML = '<p><div id="legend-title">Legenda</div><hr>';
+
+        div.innerHTML +=
+          '<i style="background: #008000; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i>Sangat Sesuai (S1)<br>' +
+          '<i style="background: #9ACD32; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i>Cukup Sesuai (S2)<br>' +
+          '<i style="background: #FFA500; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i>Sesuai Marginal (S3)<br>' +
+          '<i style="background: #B22222; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i>Tidak Sesuai Pada Saat Ini (N1)<br>' +
+          '<img src="icon/bataskec.png" style="width: 30px; height: 8px; display: inline-block; margin-right: 1px;"/> Batas Administrasi Kecamatan <br>' +
+          '<i style="background: #00FF7F; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i>RTRW Peruntukan Industri<br>';
+
+        // Add legend entries for Kecamatan colors
+        const kecamatanColors = [
+          "Bobotsari",
+          "Bojongsari",
+          "Bukateja",
+          "Kalimanah",
+          "Kaligondang",
+          "Karanganyar",
+          "Karangjambu",
+          "Karangmoncol",
+          "Karangreja",
+          "Kejobong",
+          "Kemangkon",
+          "Kertanegara",
+          "Kutasari",
+          "Mrebet",
+          "Padamara",
+          "Pengadegan",
+          "Purbalingga",
+          "Rembang",
+        ];
+
+        kecamatanColors.forEach((kecamatan) => {
+          const color = getColor(kecamatan);
+          div.innerHTML += `<i style="background: ${color}; width: 30px; height: 20px; display: inline-block; margin-right: 5px;"></i> ${kecamatan} <br>`;
+        });
+
+        return div;
+      };
+
+      legend.addTo(map);
+    </script>
+  </body>
+</html>
+
+<!---------Labelgun--------->
+<script src="https://unpkg.com/rbush@2.0.2/rbush.min.js"></script>
+<script src="https://unpkg.com/labelgun@6.1.0/lib/labelgun.min.js"></script>
